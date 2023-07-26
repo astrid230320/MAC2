@@ -1,0 +1,116 @@
+jQuery(function ($) {
+
+   jQuery(document).ready(function() {
+	"use strict";
+
+		//Scrolling feature 
+		  jQuery('.page-scroll a[href*="#"]:not([href="#"])').click(function() {
+			if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+			  var target = jQuery(this.hash);
+			  target = target.length ? target : jQuery('[name=' + this.hash.slice(1) +']');
+			  if (target.length) {
+				jQuery('html, body').animate({
+				  scrollTop: target.offset().top
+				}, 1500);
+				return false;
+			  }
+			}
+		  });
+		
+        //	Back Top Link
+
+        var offset =100;
+        var duration = 500;
+        jQuery(window).scroll(function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.back-to-top').fadeIn(400);
+            } else {
+                jQuery('.back-to-top').fadeOut(400);
+            }
+        });     		
+				
+		// Pretty Photo
+
+        jQuery("a[data-gal^='prettyPhoto']").prettyPhoto({
+            hook: 'data-gal'
+        });
+        ({
+            animation_speed: 'normal',
+            opacity: 1,
+            show_title: true,
+            allow_resize: true,
+            counter_separator_label: '/',
+            theme: 'light_square',
+            /* light_rounded / dark_rounded / light_square / dark_square / facebook */
+        });
+
+		
+    });// end document ready function
+
+    //On Click  function
+	jQuery(document).on('click',function(){
+		
+		//Navbar toggle
+		jQuery('.navbar .collapse').collapse('hide');
+		
+	})	
+	
+	
+	// Window load function
+
+    jQuery(window).load(function ($) {   
+	     // Page Preloader 	
+        jQuery("#loading").fadeOut(1000);
+
+        //Load Skrollr
+
+		var skr0llr = skrollr.init({
+			mobileCheck: function() {
+                //hack - forces mobile version to be off
+                return false;
+            }
+		});			
+    });// end window load function	
+	
+	jQuery(window).load(function ($) { 
+        //Portfolio Isotope 
+		
+        var $container = jQuery('#lightbox');
+        $container.isotope({
+            filter: '*',
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false,
+				layoutMode : 'masonry'
+            }
+
+        });
+		jQuery(window).smartresize(function(){
+			$container.isotope({
+			columnWidth: '.col-sm-3'
+			});
+		});
+		
+
+		//Portfolio Nav Filter
+
+        jQuery('.cat a').on('click', function () {
+            jQuery('.cat .active').removeClass('active');
+            jQuery(this).addClass('active');
+
+            var selector = jQuery(this).attr('data-filter');
+            $container.isotope({
+                filter: selector,
+                animationOptions: {
+                    duration: 750,
+                    easing: 'linear',
+                    queue: false
+                }
+            });
+            return false;
+        });
+		
+    });// end window load function
+   
+});
